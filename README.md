@@ -43,4 +43,4 @@ Here are some suggestions:
 ```
 
 ## Authors
-Konstantinos Chaldaiopoulos & Natalia Koliou
+Natalia Koliou & Konstantinos Chaldaiopoulos
