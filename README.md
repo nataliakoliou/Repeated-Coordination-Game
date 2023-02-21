@@ -7,18 +7,15 @@ This project aims to build a decryption tool that uses a multi-class SVM classif
 * **Implement the classification model iteratively:** Trains an SVM classifier on the training plaintext. It then uses this classification model iteratively, to assign class-labels to the testing ciphertext (decryption alphabet prediction).
 * **Decrypt the testing ciphertext:** Applies the predicted decryption alphabet to the testing ciphertext to decrypt it.
 
-Take a look at [this](https://nbviewer.org/github/nataliakoliou/ML-Ciphertext-Decryption/blob/main/ciphertext-decryption.ipynb) demo code in NBViwer
+Take a look at [this](https://nbviewer.org/github/nataliakoliou/Repeated-Coordination-Game/blob/main/repeated-coordination-game.ipynb) demo code in NBViwer
 
 ## Prerequisites
 The following python packages are required for the code to run:
 * Python 3: https://www.python.org/downloads/
 * NumPy: ```pip install numpy```
-* Scikit-learn: ```pip install -U scikit-learn```
 * Matplotlib: ```pip install numpy sklearn matplotlib```
 
-**Alternatively:** you can download [requirements.txt](https://github.com/nataliakoliou/ML-Ciphertext-Decryption/blob/main/requirements.txt) and run ```pip install -r requirements.txt```, to automatically install all the packages needed to reproduce my project on your own machine.
-
-> The code uses the [TRAINING-tolstoy-anna-karenina.txt](https://github.com/nataliakoliou/ML-Ciphertext-Decryption/blob/main/datasets/TRAINING-tolstoy-anna-karenina.txt) and [TESTING-pushkin-eugene-onegin.txt](https://github.com/nataliakoliou/ML-Ciphertext-Decryption/blob/main/datasets/TESTING-pushkin-eugene-onegin.txt) files as the training and testing text. Make sure that these files are in the same directory as the code.
+**Alternatively:** you can download [requirements.txt](https://github.com/nataliakoliou/Repeated-Coordination-Game/blob/main/requirements.txt) and run ```pip install -r requirements.txt```, to automatically install all the packages needed to reproduce our project on your own machine.
 
 ## Conclusion
 This code provides a basic implementation of an ML Ciphertext Decryption Algorithm. Users are encouraged to modify the training/testing datasets or the feature-tuple, to observe the impact on the total performance and accuracy.
