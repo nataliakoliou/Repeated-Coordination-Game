@@ -27,22 +27,7 @@ The following python packages are required for the code to run:
 **Alternatively:** you can download [requirements.txt](https://github.com/nataliakoliou/Repeated-Coordination-Game/blob/main/requirements.txt) and run ```pip install -r requirements.txt```, to automatically install all the packages needed to reproduce our project on your own machine.
 
 ## Conclusion
-This code provides a basic implementation of an ML Ciphertext Decryption Algorithm. Users are encouraged to modify the training/testing datasets or the feature-tuple, to observe the impact on the total performance and accuracy.
-
-Here are some suggestions:
-```python
-# Remove some good features from the feature tuple:
-117  fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(12, 8))
-...
-120  for d in (f0, f1, f2, f3, f4, f8, f9, f10, f11):
-```
-
-```python
-# Use a different testing dataset:
-87   training_text = "TRAINING-tolstoy-anna-karenina.txt"
-88   testing_text = "TESTING-goethe-werther.txt"
-89   decryption_alphabet = "ghbcafmsztwnroevlixupjyqkd"  # encryption_alphabet = "ecdzofabrvyqglnuxmhjtpkswi"
-```
+* This code provides a good example of how Q-Learning can be used to simulate a multi-player game with dynamic rules and payoffs.
 
 ## Authors
 Natalia Koliou & Konstantinos Chaldaiopoulos
