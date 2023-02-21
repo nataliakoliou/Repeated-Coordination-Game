@@ -1,12 +1,13 @@
 # Repeated Coordination Game
 
 * The code implements a Repeated Coordination Game between 7 players using Q-Learning.
-* The game involves two actions, "Action[1]" and "Action[2]", and two types of players, "X" and "Y".
-* The payoffs for each player depend on the combination of actions chosen by the player and the pairs in which he is involved in a given round.
+* Two action, "Action[1]" and "Action[2]",are involve and two types of players, "X" and "Y".
+* Payoffs for each player depend on the combination of actions chosen by the player and the pairs in which he is involved in a given round.
 * The neighbors list specifies the pairs of players that are matched together in each round, and each player may participate in multiple pairs depending on the size and structure of the network.
-* The game is played over a series of episodes, and the players' Q-tables are updated according to the rewards received during the moments of each episode.
-* The exploration rate gradually decreases over the course of the game in order to encourage players to exploit the game more often as the game progresses.
-* The performance of the players is graphed over time, and the final Q-tables for each player are printed at the end of the game.
+* The game is played repeatedly with a predefined number of episode.
+* Each players Q-table is updated according to the rewards received during the moments of each episode.
+* Exploration rate gradually decreases over the course of the game in order to encourage players to exploit the game more often as the game progresses.
+* Performance of the players is graphed over time, and the final Q-tables for each player are printed at the end of the game.
 
 
 #### Functions of the code ####
