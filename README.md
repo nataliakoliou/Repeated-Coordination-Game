@@ -27,7 +27,7 @@ The following python packages are required for the code to run:
 **Alternatively:** you can download [requirements.txt](https://github.com/nataliakoliou/Repeated-Coordination-Game/blob/main/requirements.txt) and run ```pip install -r requirements.txt```, to automatically install all the packages needed to reproduce our project on your own machine.
 
 ## Conclusion
-* This code provides a good example of how Q-Learning can be used to simulate a multi-player game with dynamic rules and payoffs.
+This code provides a good example of how Q-Learning can be used to simulate a multi-player game with dynamic rules and payoffs.
 
 ## Authors
 Natalia Koliou & Konstantinos Chaldaiopoulos
