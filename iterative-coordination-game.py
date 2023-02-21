@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # Iterative Coordination Game
 actions = ["Action[1]", "Action[2]"]
-types = ['X', 'X', 'X', 'X', 'X', 'Y', 'Y']
+types = ["X", "X", "X", "X", "X", "Y", "Y"]
 payoff = {"X": [[2,0],[0,1]], "Y": [[1,0],[0,2]]}
 neighbors = [[0,4],[0,5],[0,3],[1,2],[1,4],[2,3],[4,5],[5,6]]
 frequencies = [sum(num in sublist for sublist in neighbors) for num in range(max(max(sublist) for sublist in neighbors) + 1)]
@@ -39,10 +39,10 @@ def graph(x_max, y_ranges, x_label, y_label):
         c += 1
     plt.show()
 
-def action_to_id(action):
-    if action == actions[0]:
+def string_to_id(string, list):
+    if string == list[0]:
         id = 0
-    elif action == actions[1]:
+    elif string == list[1]:
         id = 1
     return id
 
@@ -58,6 +58,7 @@ def qlearning(players_data):
 
     rwXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
     acXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
+    mrwXep = [[0 for e in range(episodes)] for t in range(len(set(types)))]
 
     while ep < episodes: 
         for pair in neighbors:  # n = [0,4], ...
@@ -67,11 +68,11 @@ def qlearning(players_data):
                 m += 1
                 if choice < epsilon : # EXPLORATION
                     players_data = explore(pair, players_data)
-                    acXep, rwXep, players_data = update(pair, players_data, alpha, gamma, acXep, rwXep, ep, moments)
+                    acXep, rwXep, mrwXep, players_data = update(pair, players_data, alpha, gamma, acXep, rwXep, mrwXep, ep, moments)
                     #game_print("exploration", ep, episodes, players_data)
                 else: # EXPLOITATION
                     players_data = exploit(pair, players_data)
-                    acXep, rwXep, players_data = update(pair, players_data, alpha, gamma, acXep, rwXep, ep, moments)
+                    acXep, rwXep, mrwXep, players_data = update(pair, players_data, alpha, gamma, acXep, rwXep, mrwXep, ep, moments)
                     #game_print("exploitation", ep, episodes, players_data)
         ep = ep + 1
         if epsilon > 0.000000:
@@ -85,20 +86,25 @@ def qlearning(players_data):
     graph(episodes, acXep, x_axis, y_axis)
     y_axis = "Player's Reward"
     graph(episodes, rwXep, x_axis, y_axis)
+    y_axis = "Player-Types Mean Reward"
+    graph(episodes, mrwXep, x_axis, y_axis)
 
-def update(pair, players_data, alpha, gamma, acXep, rwXep, ep, moments):
+def update(pair, players_data, alpha, gamma, acXep, rwXep, mrwXep, ep, moments):
     for p in pair:
         player_action = players_data[p].get("action")
+        player_type = players_data[p].get("type")
         opponent_action = players_data[get_opponent(p, pair)].get("action")
         oldQ = players_data[p].get("qtable")[player_action]
-        reward = players_data[p]["payoff"][action_to_id(player_action)][action_to_id(opponent_action)]
+        reward = players_data[p]["payoff"][string_to_id(player_action, actions)][string_to_id(opponent_action, actions)]
         maxQ = max(players_data[p]["qtable"].values())
         newQ = round((1-alpha)*oldQ + alpha*(reward + gamma*maxQ), 2)
         players_data[p].get("qtable")[player_action] = newQ
+
         rwXep[p][ep] += reward/moments
-        acXep[p][ep] += action_to_id(player_action)/(moments*frequencies[p])   # this value will finally
+        mrwXep[string_to_id(player_type, list(set(types)))][ep] += reward/(moments*types.count(player_type))
+        acXep[p][ep] += string_to_id(player_action, actions)/(moments*frequencies[p])   # this value will finally
         # be something like e.x: 0.8 indicating that this player chose Action-2 (8) times in this current episode
-    return acXep, rwXep, players_data
+    return acXep, rwXep, mrwXep, players_data
 
 def get_opponent(player, pair):
     opponent = pair[0] if player == pair[1] else pair[1]
