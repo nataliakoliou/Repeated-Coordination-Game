@@ -1,13 +1,15 @@
-import random
 import time
-import matplotlib.pyplot as plt
+import random
 import numpy as np
+from collections import Counter
+import matplotlib.pyplot as plt
 
 # Iterative Coordination Game
-actions = ["Action-1", "Action-2"]
+actions = ["Action[1]", "Action[2]"]
 types = ['X', 'X', 'X', 'X', 'X', 'Y', 'Y']
 payoff = {"X": [[2,0],[0,1]], "Y": [[1,0],[0,2]]}
 neighbors = [[0,4],[0,5],[0,3],[1,2],[1,4],[2,3],[4,5],[5,6]]
+frequencies = [sum(num in sublist for sublist in neighbors) for num in range(max(max(sublist) for sublist in neighbors) + 1)]
 
 def game_print(phase, ep, maxep, players_data):
 
@@ -55,11 +57,7 @@ def qlearning(players_data):
     accuracy = 10
 
     rwXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
-
-    #acXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
-    #rwXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
-
-    #previous_reward = [0 for p in range(len(players_data))]
+    acXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
 
     while ep < episodes: 
         for pair in neighbors:  # n = [0,4], ...
@@ -69,15 +67,11 @@ def qlearning(players_data):
                 m += 1
                 if choice < epsilon : # EXPLORATION
                     players_data = explore(pair, players_data)
-                    rwXep, players_data = update(pair, players_data, alpha, gamma, rwXep, ep, moments)
-                    #acXm = acXep_update(acXep, players_data, ep)
-                    #previous_reward, rwXep = rwXep_update(previous_reward, rwXep, players_data, ep)
+                    acXep, rwXep, players_data = update(pair, players_data, alpha, gamma, acXep, rwXep, ep, moments)
                     #game_print("exploration", ep, episodes, players_data)
                 else: # EXPLOITATION
                     players_data = exploit(pair, players_data)
-                    rwXep, players_data = update(pair, players_data, alpha, gamma, rwXep, ep, moments)
-                    #acXep = acXep_update(acXep, players_data, ep)
-                    #previous_reward, rwXep = rwXep_update(previous_reward, rwXep, players_data, ep)
+                    acXep, rwXep, players_data = update(pair, players_data, alpha, gamma, acXep, rwXep, ep, moments)
                     #game_print("exploitation", ep, episodes, players_data)
         ep = ep + 1
         if epsilon > 0.000000:
@@ -86,12 +80,13 @@ def qlearning(players_data):
             epsilon = 0.000000
 
     x_axis = "Episode"
-    #y_axis = "Player's Choice"
-    #graph(episodes, acXep, x_axis, y_axis)
+    y_axis = "Player's Choice"
+    acXep = [[int(num) for num in sublist] for sublist in acXep]
+    graph(episodes, acXep, x_axis, y_axis)
     y_axis = "Player's Reward"
     graph(episodes, rwXep, x_axis, y_axis)
 
-def update(pair, players_data, alpha, gamma, rwXep, ep, moments):
+def update(pair, players_data, alpha, gamma, acXep, rwXep, ep, moments):
     for p in pair:
         player_action = players_data[p].get("action")
         opponent_action = players_data[get_opponent(p, pair)].get("action")
@@ -100,27 +95,14 @@ def update(pair, players_data, alpha, gamma, rwXep, ep, moments):
         maxQ = max(players_data[p]["qtable"].values())
         newQ = round((1-alpha)*oldQ + alpha*(reward + gamma*maxQ), 2)
         players_data[p].get("qtable")[player_action] = newQ
-        rwXep[p][ep] += reward/moments  
-    return rwXep, players_data
+        rwXep[p][ep] += reward/moments
+        acXep[p][ep] += action_to_id(player_action)/(moments*frequencies[p])   # this value will finally
+        # be something like e.x: 0.8 indicating that this player chose Action-2 (8) times in this current episode
+    return acXep, rwXep, players_data
 
 def get_opponent(player, pair):
     opponent = pair[0] if player == pair[1] else pair[1]
     return opponent
-
-"""
-def rwXep_update(previous_reward, rwXep, players_data, ep):
-    for p in range(len(players_data)):
-        op = get_opponent(p, pair)
-        rwXep[p][ep] = players_data[p]["payoff"][players_data[p].get("action")][action_to_id(players_data[op].get("action"))]
-        previous_reward[p] = rwXep[p][ep]
-    return previous_reward, rwXep
-"""
-"""
-def acXep_update(acXep, players_data, ep):
-    for p in range(len(players_data)):
-        acXep[p][ep] = action_to_id(players_data[p].get("action"))
-    return acXep
-"""
 
 def explore(pair, players_data):
     for p in pair:  # [0,4]
