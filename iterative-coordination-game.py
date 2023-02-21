@@ -9,9 +9,6 @@ types = ['X', 'X', 'X', 'X', 'X', 'Y', 'Y']
 payoff = {"X": [[2,0],[0,1]], "Y": [[1,0],[0,2]]}
 neighbors = [[0,4],[0,5],[0,3],[1,2],[1,4],[2,3],[4,5],[5,6]]
 
-#preference = [[2,1],[1,2]]  # preference[0] refers to X's preference over actions: Action-1 and Action-2
-#game_matrix = [{actions[0]: [1,0], actions[1]: [0,1]}, {actions[0]: [1,0], actions[1]: [0,1]}]
-
 def game_print(phase, ep, maxep, players_data):
 
     if phase == "exploration" and ep % int(maxep/10) == 0:
@@ -28,7 +25,7 @@ def game_print(phase, ep, maxep, players_data):
 
 def graph(x_max, y_ranges, x_label, y_label):
     c = 0
-    colours = ["darkviolet", "darkred"]
+    colours = ['#FFC300', '#FF5733', '#C70039', '#900C3F', '#581845', '#006266', '#1B1464']
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     x = [x_value for x_value in range(x_max)]
@@ -57,45 +54,44 @@ def qlearning(players_data):
     decay = 0.01
     accuracy = 10
 
+    rwXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
+
     #acXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
     #rwXep = [[0 for e in range(episodes)] for p in range(len(players_data))]
 
     #previous_reward = [0 for p in range(len(players_data))]
 
     while ep < episodes: 
-        ep = ep + 1
         for pair in neighbors:  # n = [0,4], ...
             m = 0
             choice = round(random.uniform(0, 1), accuracy)
-
             while m <= moments:
                 m += 1
                 if choice < epsilon : # EXPLORATION
                     players_data = explore(pair, players_data)
-                    players_data = update(pair, players_data, alpha, gamma)
+                    rwXep, players_data = update(pair, players_data, alpha, gamma, rwXep, ep, moments)
                     #acXm = acXep_update(acXep, players_data, ep)
                     #previous_reward, rwXep = rwXep_update(previous_reward, rwXep, players_data, ep)
                     #game_print("exploration", ep, episodes, players_data)
-                
                 else: # EXPLOITATION
                     players_data = exploit(pair, players_data)
-                    players_data = update(pair, players_data, alpha, gamma)
+                    rwXep, players_data = update(pair, players_data, alpha, gamma, rwXep, ep, moments)
                     #acXep = acXep_update(acXep, players_data, ep)
                     #previous_reward, rwXep = rwXep_update(previous_reward, rwXep, players_data, ep)
                     #game_print("exploitation", ep, episodes, players_data)
-
+        ep = ep + 1
         if epsilon > 0.000000:
             epsilon -= decay/20  # X=20
         else:
             epsilon = 0.000000
 
-    #x_axis = "Episode"
+    x_axis = "Episode"
     #y_axis = "Player's Choice"
     #graph(episodes, acXep, x_axis, y_axis)
-    #y_axis = "Player's Reward"
-    #graph(episodes, rwXep, x_axis, y_axis)
+    y_axis = "Player's Reward"
+    graph(episodes, rwXep, x_axis, y_axis)
 
-def update(pair, players_data, alpha, gamma):
+def update(pair, players_data, alpha, gamma, rwXep, ep, moments):
     for p in pair:
         player_action = players_data[p].get("action")
         opponent_action = players_data[get_opponent(p, pair)].get("action")
@@ -104,9 +100,10 @@ def update(pair, players_data, alpha, gamma):
         maxQ = max(players_data[p]["qtable"].values())
         newQ = round((1-alpha)*oldQ + alpha*(reward + gamma*maxQ), 2)
         players_data[p].get("qtable")[player_action] = newQ
-    return players_data
+        rwXep[p][ep] += reward/moments  
+    return rwXep, players_data
 
-def get_opponent(player, pair):  # [0,4]
+def get_opponent(player, pair):
     opponent = pair[0] if player == pair[1] else pair[1]
     return opponent
 
