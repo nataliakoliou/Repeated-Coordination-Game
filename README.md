@@ -1,4 +1,4 @@
-# Repated Coordination Game
+# Repeated Coordination Game
 
 This project aims to build a decryption tool that uses a multi-class SVM classification model to decrypt ciphertexts, encrypted with some randomly generated mixed-ciphertext alphabet.
 
