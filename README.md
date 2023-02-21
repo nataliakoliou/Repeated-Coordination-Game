@@ -4,12 +4,13 @@
 * The game involves two actions, "Action[1]" and "Action[2]", and two types of players, "X" and "Y".
 * The payoffs for each player depend on the combination of actions chosen by him and the pairs in which he is involved in a given round.
 * The neighbors list specifies the pairs of players that are matched together in each round, and each player may participate in multiple pairs depending on the size and structure of the network.
-* The code is organized into several functions that are responsible for different aspects of the game.
+** Functions of the code **
 * The qlearning function is the main function that orchestrates the game, calling the other functions as needed.
 * During the game, the game_print function is responsible for printing the state of the game during each round of exploration and exploitation.
 * The graph function is used to generate graphs that show how the players' actions and rewards evolve over time.
 * The explore and exploit functions are responsible for randomly selecting actions during exploration and exploitation phases of the game, respectively.
 * The update function updates the players' Q-tables based on the rewards received during a given round, and the get_opponent function identifies the opponent for a given player.
+** Explanation  **
 * The game is played over a series of episodes, and the players' Q-tables are updated according to the rewards received during the moments of each episode.
 * The exploration rate gradually decreases over the course of the game in order to encourage players to exploit the game more often as the game progresses.
 * The performance of the players is graphed over time, and the final Q-tables for each player are printed at the end of the game.
