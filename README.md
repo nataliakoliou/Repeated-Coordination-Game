@@ -12,11 +12,10 @@
 #### Functions of the code ####
 * The "qlearning" function is the main function that orchestrates the game, calling the other functions as needed.
 * During the game, the "game_print" function is responsible for printing the state of the game during each round of exploration and exploitation.
-* The "graph" function is used generates graphs that show how the player choses actions and recieves his rewards evolve over time.
+* The "graph" function is used to generate graphs that show, how the player's choices (actions) and rewards evolve over time.
 * The "explore" and "exploit" functions select actions during exploration and exploitation phases of the game. 
 * The "update" function updates the players' Q-tables based on the rewards received during a given round.
 * The "get_opponent" function identifies the opponent for a given player.
-
 
 ## Prerequisites
 The following python packages are required for the code to run:
