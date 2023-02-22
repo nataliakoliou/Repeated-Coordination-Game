@@ -9,7 +9,7 @@ The code implements a Repeated Coordination Game between 7 players using Q-Learn
 * Exploration rate gradually decreases over the course of the game, in order to encourage players to exploit the game more often as the game progresses.
 * Players' performance is graphed over time and the final actions & Q-values for each player are printed at the end of the game.
 
-### Important Functions in the code ####
+### Important Functions in the Code ####
 * **qlearning:** the main function that orchestrates the game, calling other functions as needed.
 * **game_print:** is responsible for printing the state of the game during each round of exploration and exploitation.
 * **graph:** is used to generate graphs that show, how the player's choices (actions) and rewards evolve over time.
