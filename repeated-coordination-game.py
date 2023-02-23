@@ -1,12 +1,11 @@
 import time
 import random
 import numpy as np
-from collections import Counter
 import matplotlib.pyplot as plt
 
 # Iterative Coordination Game
 actions = ["Action[1]", "Action[2]"]
-types = ["X", "X", "X", "X", "X", "Y", "Y"]
+types = ["X", "X", "X", "Y", "Y", "Y", "Y"]
 payoff = {"X": [[2,0],[0,1]], "Y": [[1,0],[0,2]]}
 neighbors = [[0,4],[0,5],[0,3],[1,2],[1,4],[2,3],[4,5],[5,6]]
 frequencies = [sum(num in sublist for sublist in neighbors) for num in range(max(max(sublist) for sublist in neighbors) + 1)]
