@@ -19,7 +19,7 @@ def game_print(phase, ep, m, episodes, players_data, pair):
             ", preference: " + players_data[p]["preference"] + ", action: " + str(players_data[p]["action"]) + "}")
         time.sleep(0)
 
-    elif phase == "exploitation" and m == 10 and ep % int(episodes/4) == 0:
+    elif phase == "exploitation" and m == 10 and ep % int(episodes/6) == 0:
         print("\n" + "*"*50 + '\033[1m' + "\nExploitation:" + '\033[0m' + " (pair: {}, episode: {})".format(pair, ep))
         for p in range(len(players_data)):
             print('\033[1m' + players_data[p]["name"] + ":" + '\033[0m' + " {type: " + players_data[p]["type"] + \
