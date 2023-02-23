@@ -33,7 +33,7 @@ def graph(x_max, y_ranges, x_label, y_label):
     x = [x_value for x_value in range(x_max)]
     if y_label == "Average Q-value":
         for i, y in enumerate(y_ranges):
-            plt.plot(x, y, color=colours[i], label=f'A{i}')
+            plt.plot(x, y, color=colours[i], label=f'A{i+1}')
         plt.legend()
     elif y_label == "Action":
         y_values = [actions[0], actions[1]]
