@@ -1,7 +1,7 @@
 # Repeated Coordination Game
 
 The code implements a Repeated Coordination Game between 7 players using Q-Learning, for the purpose of reaching some Nash Equilibrium point.
-* Two actions: "A1" and "A2", and two types of players: "X" and "Y" are involved.
+* Two actions: "A<sub>1</sub>" and "A<sub>2</sub>", and two types of players: "X" and "Y" are involved.
 * The payoff of each player depends on the combination of actions chosen by him and his opponent, and the pair in which he is involved in a given round.
 * The neighbors list specifies the pairs of players that are matched together in each round - each player may participate in multiple pairs depending on the size and structure of the network.
 * The game is played repeatedly with a predefined number of episodes.
@@ -44,4 +44,4 @@ Here are some suggestions:
 ```
 
 ## Authors
-Natalia Koliou & Konstantinos Chaldaiopoulos
+[Natalia Koliou](https://www.linkedin.com/in/natalia-koliou-b37b01197/) & Konstantinos Chaldaiopoulos
